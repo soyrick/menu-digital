@@ -26,6 +26,7 @@ const COLORES = [
   { name: "Rosa", value: "#db2777" },
   { name: "Gris", value: "#6b7280" },
   { name: "Cyan", value: "#0891b2" },
+  { name: "Blanco", value: "#ffffff" },
 ];
 
 export default function Home() {
@@ -41,12 +42,17 @@ export default function Home() {
   const [showToast, setShowToast] = useState(false);
   const [showEditHeader, setShowEditHeader] = useState(false);
   const [headerImagePosition, setHeaderImagePosition] = useState(50);
+  const [busquedaActiva, setBusquedaActiva] = useState(false);
+  const [terminoBusqueda, setTerminoBusqueda] = useState("");
   const [editForm, setEditForm] = useState({
     nombre: config.nombre,
     eslogan: config.eslogan,
     direccion: config.direccion,
     headerColor: config.headerColor,
     headerImagen: config.headerImagen,
+    themeColor: config.themeColor,
+    backgroundColor: config.backgroundColor,
+    useBackgroundColor: config.useBackgroundColor,
   });
   const { productos, categorias } = useProducts();
   const { isAdmin } = useAdmin();
@@ -100,8 +106,16 @@ export default function Home() {
     ? productos
     : productos.filter((p) => p.categoria === categoriaActiva);
 
+  // Filtrar por búsqueda (busca tanto en nombre como en categoría)
+  const productosMostrados = terminoBusqueda.trim()
+    ? productosFiltrados.filter((p) => 
+        p.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase()) ||
+        p.categoria.toLowerCase().includes(terminoBusqueda.toLowerCase())
+      )
+    : productosFiltrados;
+
   return (
-    <main className="min-h-screen pb-24">
+    <main className="flex-1 flex flex-col">
       {/* Header dinámico */}
       <header 
         className="bg-gradient-to-r text-white py-12 px-6 text-center relative"
@@ -145,6 +159,9 @@ export default function Home() {
                 direccion: config.direccion,
                 headerColor: config.headerColor,
                 headerImagen: config.headerImagen,
+                themeColor: config.themeColor,
+                backgroundColor: config.backgroundColor,
+                useBackgroundColor: config.useBackgroundColor,
               });
               setShowEditHeader(true);
             }}
@@ -200,7 +217,7 @@ export default function Home() {
                   type="text"
                   value={editForm.nombre}
                   onChange={(e) => setEditForm({ ...editForm, nombre: e.target.value })}
-                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none"
+                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none"
                   placeholder="Nombre del restaurante"
                 />
               </div>
@@ -212,7 +229,7 @@ export default function Home() {
                   type="text"
                   value={editForm.eslogan}
                   onChange={(e) => setEditForm({ ...editForm, eslogan: e.target.value })}
-                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none"
+                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none"
                   placeholder="Eslogan del negocio"
                 />
               </div>
@@ -224,7 +241,7 @@ export default function Home() {
                   type="text"
                   value={editForm.direccion}
                   onChange={(e) => setEditForm({ ...editForm, direccion: e.target.value })}
-                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none"
+                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none"
                   placeholder="Dirección del negocio"
                 />
               </div>
@@ -238,7 +255,7 @@ export default function Home() {
                     onClick={() => setEditForm({ ...editForm, headerImagen: null })}
                     className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
                       !editForm.headerImagen 
-                        ? 'bg-orange-500 text-white' 
+                        ? 'bg-theme-500 text-white' 
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                     }`}
                   >
@@ -249,7 +266,7 @@ export default function Home() {
                     onClick={() => document.getElementById('headerImageInput')?.click()}
                     className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
                       editForm.headerImagen 
-                        ? 'bg-orange-500 text-white' 
+                        ? 'bg-theme-500 text-white' 
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                     }`}
                   >
@@ -284,7 +301,7 @@ export default function Home() {
                         className={`w-10 h-10 rounded-full border-2 transition-all ${
                           editForm.headerColor === color.value 
                             ? 'border-gray-900 scale-110' 
-                            : 'border-transparent'
+                            : 'border-gray-300'
                         }`}
                         style={{ backgroundColor: color.value }}
                         title={color.name}
@@ -325,6 +342,75 @@ export default function Home() {
                   </div>
                 )}
               </div>
+
+              {/* Color del tema */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Color del tema</label>
+                <p className="text-xs text-gray-500 mb-3">Este color se aplica al fondo de la página</p>
+                <div className="grid grid-cols-5 gap-2">
+                  {COLORES.map((color) => (
+                    <button
+                      key={color.value}
+                      type="button"
+                      onClick={() => setEditForm({ ...editForm, themeColor: color.value })}
+                      className={`w-10 h-10 rounded-full border-2 transition-all ${
+                        editForm.themeColor === color.value 
+                          ? 'border-gray-900 scale-110' 
+                          : 'border-gray-300'
+                      }`}
+                      style={{ backgroundColor: color.value }}
+                      title={color.name}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Color de fondo */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Color de fondo</label>
+                <p className="text-xs text-gray-500 mb-3">Color sólido para el fondo de la página</p>
+                <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap gap-2">
+                    {COLORES.map((color) => (
+                      <button
+                        key={color.value}
+                        type="button"
+                        onClick={() => setEditForm({ 
+                          ...editForm, 
+                          backgroundColor: color.value,
+                          useBackgroundColor: true,
+                        })}
+                        className={`w-10 h-10 rounded-full border-2 transition-all ${
+                          editForm.backgroundColor === color.value && editForm.useBackgroundColor
+                            ? 'border-gray-900 scale-110' 
+                            : 'border-gray-300'
+                        }`}
+                        style={{ backgroundColor: color.value }}
+                        title={color.name}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setEditForm({ 
+                      ...editForm, 
+                      backgroundColor: null,
+                      useBackgroundColor: false,
+                    })}
+                    className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
+                      !editForm.useBackgroundColor
+                        ? 'border-gray-900 scale-110 bg-gray-200' 
+                        : 'border-gray-300 bg-white'
+                    }`}
+                    title="Usar color del tema"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
             </div>
 
             {/* Botones de acción */}
@@ -343,6 +429,9 @@ export default function Home() {
                     direccion: editForm.direccion,
                     headerColor: editForm.headerColor,
                     headerImagen: editForm.headerImagen,
+                    themeColor: editForm.themeColor,
+                    backgroundColor: editForm.backgroundColor,
+                    useBackgroundColor: editForm.useBackgroundColor,
                   });
                   setShowEditHeader(false);
                   showToastMessage("✅ Header actualizado");
@@ -357,21 +446,65 @@ export default function Home() {
       )}
 
       <nav className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm shadow-sm py-4 px-6">
-        <div className="max-w-6xl mx-auto overflow-x-auto">
-          <div className="flex gap-2 min-w-max">
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex gap-2 min-w-max overflow-x-auto">
             {categorias.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setCategoriaActiva(cat)}
+                onClick={() => {
+                  setCategoriaActiva(cat);
+                  setTerminoBusqueda("");
+                }}
                 className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200 whitespace-nowrap ${
                   categoriaActiva === cat
-                    ? "bg-orange-500 text-white shadow-md"
-                    : "bg-gray-100 text-gray-700 hover:bg-orange-100 hover:text-orange-700"
+                    ? "bg-theme-500 text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-theme-100 hover:text-theme-700"
                 }`}
               >
                 {cat}
               </button>
             ))}
+          </div>
+
+          {/* Buscador */}
+          <div className="relative flex items-center gap-2">
+            {busquedaActiva && (
+              <div className="flex items-center gap-2 animate-slide-in-left">
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={terminoBusqueda}
+                    onChange={(e) => setTerminoBusqueda(e.target.value)}
+                    placeholder="Buscar productos..."
+                    className="w-48 md:w-64 px-4 py-2 pr-10 rounded-full border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none text-sm"
+                    autoFocus
+                  />
+                  {terminoBusqueda && (
+                    <button
+                      onClick={() => setTerminoBusqueda("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+            <button
+              onClick={() => setBusquedaActiva(!busquedaActiva)}
+              className={`p-2.5 rounded-full transition-all ${
+                busquedaActiva 
+                  ? "bg-theme-500 text-white" 
+                  : "bg-gray-100 text-gray-600 hover:bg-theme-100 hover:text-theme-700"
+              }`}
+              title="Buscar productos"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
           </div>
         </div>
       </nav>
@@ -379,15 +512,17 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 py-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">
-            {categoriaActiva === "Todas" ? "Todo el Menú" : categoriaActiva}
+            {terminoBusqueda 
+              ? `Resultados para "${terminoBusqueda}"` 
+              : categoriaActiva === "Todas" ? "Todo el Menú" : categoriaActiva}
           </h2>
           <span className="text-gray-500 text-sm">
-            {productosFiltrados.length} productos
+            {productosMostrados.length} productos
           </span>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {productosFiltrados.map((producto) => (
+          {productosMostrados.map((producto) => (
             <MenuCard 
               key={producto.id} 
               producto={producto} 
@@ -399,14 +534,26 @@ export default function Home() {
           ))}
         </div>
 
-        {productosFiltrados.length === 0 && (
+        {productosMostrados.length === 0 && (
           <div className="text-center py-16">
-            <p className="text-gray-500 text-lg">No hay productos en esta categoría</p>
+            <p className="text-gray-500 text-lg">
+              {terminoBusqueda 
+                ? `No se encontraron productos para "${terminoBusqueda}"` 
+                : "No hay productos en esta categoría"}
+            </p>
+            {terminoBusqueda && (
+              <button
+                onClick={() => setTerminoBusqueda("")}
+                className="mt-4 text-theme-500 hover:text-theme-600 font-medium"
+              >
+                Limpiar búsqueda
+              </button>
+            )}
           </div>
         )}
       </section>
 
-      <footer className="bg-gray-900 text-gray-400 py-8 px-6 text-center">
+      <footer className="bg-gray-900 text-gray-400 py-8 px-6 text-center mt-auto">
         <div className="max-w-4xl mx-auto">
           <p className="text-sm">© 2026 Burger House. Todos los derechos reservados.</p>
           <p className="text-xs mt-2">Haz tu pedido y te lo llevamos a casa</p>

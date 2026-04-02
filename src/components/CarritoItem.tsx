@@ -36,7 +36,7 @@ export default function CarritoItem({ item }: CarritoItemProps) {
         <h4 className="font-semibold text-gray-900 text-sm truncate">
           {item.producto.nombre}
         </h4>
-        <p className="text-orange-600 font-bold text-sm">
+        <p className="text-theme-600 font-bold text-sm">
           {formatPrice(item.producto.precio)}
         </p>
         

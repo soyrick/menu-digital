@@ -11,6 +11,58 @@
   --color-orange-400: #fb923c;
   --color-orange-500: #f97316;
   --color-orange-600: #ea580c;
+  
+  /* Variables de tema dinámico */
+  --theme-50: #fff7ed;
+  --theme-100: #ffedd5;
+  --theme-200: #fed7aa;
+  --theme-300: #fdba74;
+  --theme-400: #fb923c;
+  --theme-500: #f97316;
+  --theme-600: #ea580c;
+  --theme-700: #c2410c;
+}
+
+/* Colores del tema dinámico */
+.theme-50 { background-color: var(--theme-50); }
+.theme-100 { background-color: var(--theme-100); }
+.theme-200 { background-color: var(--theme-200); }
+.theme-300 { background-color: var(--theme-300); }
+.theme-400 { background-color: var(--theme-400); }
+.theme-500 { background-color: var(--theme-500); }
+.theme-600 { background-color: var(--theme-600); }
+.theme-700 { background-color: var(--theme-700); }
+
+.text-theme-500 { color: var(--theme-500); }
+.text-theme-600 { color: var(--theme-600); }
+.text-theme-700 { color: var(--theme-700); }
+
+.hover\:text-theme-500:hover { color: var(--theme-500); }
+.hover\:text-theme-600:hover { color: var(--theme-600); }
+.hover\:text-theme-700:hover { color: var(--theme-700); }
+
+.bg-theme-500 { background-color: var(--theme-500); }
+.bg-theme-600 { background-color: var(--theme-600); }
+.bg-theme-700 { background-color: var(--theme-700); }
+
+.hover\:bg-theme-500:hover { background-color: var(--theme-500); }
+.hover\:bg-theme-600:hover { background-color: var(--theme-600); }
+.hover\:bg-theme-700:hover { background-color: var(--theme-700); }
+
+.border-theme-200 { border-color: var(--theme-200); }
+.border-theme-500 { border-color: var(--theme-500); }
+
+.focus\:border-theme-500:focus { border-color: var(--theme-500); }
+.focus\:ring-theme-200:focus { --tw-ring-color: var(--theme-200); }
+
+/* Scrollbar con color del tema */
+::-webkit-scrollbar-thumb {
+  background: var(--theme-500);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-600);
 }
 
 /* Animaciones personalizadas */
@@ -40,6 +92,22 @@
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+/* Slide desde la derecha (lupa) hacia la izquierda */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.25s ease-out;
 }
 
 /* Estilos adicionales */

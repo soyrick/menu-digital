@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
-import { CarritoProvider } from "@/context/CarritoContext";
-import { AdminProvider } from "@/context/AdminContext";
-import { ProductsProvider } from "@/context/ProductsContext";
-import { SiteConfigProvider } from "@/context/SiteConfigContext";
+import Providers from "@/components/Providers";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -33,16 +30,10 @@ export default function RootLayout({
       lang="es"
       className={`${playfair.variable} ${inter.variable}`}
     >
-      <body className="min-h-screen bg-gradient-to-b from-orange-50 to-white font-sans">
-        <AdminProvider>
-          <ProductsProvider>
-            <CarritoProvider>
-              <SiteConfigProvider>
-                {children}
-              </SiteConfigProvider>
-            </CarritoProvider>
-          </ProductsProvider>
-        </AdminProvider>
+      <body className="font-sans">
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

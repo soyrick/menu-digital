@@ -8,6 +8,9 @@ export interface SiteConfig {
   direccion: string;
   headerColor: string;
   headerImagen: string | null;
+  themeColor: string;
+  backgroundColor: string | null;
+  useBackgroundColor: boolean;
 }
 
 interface SiteConfigContextType {
@@ -22,6 +25,9 @@ const defaultConfig: SiteConfig = {
   direccion: "Av. Principal 123, Centro",
   headerColor: "#ea580c",
   headerImagen: null,
+  themeColor: "#ea580c",
+  backgroundColor: null,
+  useBackgroundColor: false,
 };
 
 const SiteConfigContext = createContext<SiteConfigContextType | undefined>(undefined);

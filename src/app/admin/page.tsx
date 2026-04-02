@@ -127,7 +127,7 @@ function AdminDashboardContent() {
             </button>
             <div>
               <h1 className="text-2xl font-bold">Panel de Administración</h1>
-              <p className="text-orange-100 text-sm">{config.nombre}</p>
+              <p className="text-theme-100 text-sm">{config.nombre}</p>
             </div>
           </div>
           <button
@@ -150,7 +150,7 @@ function AdminDashboardContent() {
         </div>
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <p className="text-gray-500 text-sm">Productos Vendidos</p>
-          <p className="text-3xl font-bold text-orange-600">
+          <p className="text-3xl font-bold text-theme-600">
             {Array.from(productosVendidos.values()).reduce((a, b) => a + b, 0)}
           </p>
         </div>
@@ -161,7 +161,7 @@ function AdminDashboardContent() {
           <button
             onClick={() => setVistaActiva("pedidos")}
             className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all ${
-              vistaActiva === "pedidos" ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-orange-100"
+              vistaActiva === "pedidos" ? "bg-theme-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-theme-100"
             }`}
           >
             Pedidos
@@ -169,7 +169,7 @@ function AdminDashboardContent() {
           <button
             onClick={() => setVistaActiva("productos")}
             className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all ${
-              vistaActiva === "productos" ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-orange-100"
+              vistaActiva === "productos" ? "bg-theme-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-theme-100"
             }`}
           >
             Productos Más Vendidos
@@ -177,7 +177,7 @@ function AdminDashboardContent() {
           <button
             onClick={() => setVistaActiva("agregar")}
             className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all ${
-              vistaActiva === "agregar" ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-orange-100"
+              vistaActiva === "agregar" ? "bg-theme-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-theme-100"
             }`}
           >
             Agregar Producto

@@ -211,8 +211,8 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
         </button>
 
         <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-16 h-16 bg-theme-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-theme-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
           </div>
@@ -232,7 +232,7 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none transition-all"
                 placeholder="Tu nombre"
                 required={!isLogin}
               />
@@ -246,7 +246,7 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
                 type="text"
                 value={direccion}
                 onChange={(e) => setDireccion(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none transition-all"
                 placeholder="Tu dirección de entrega"
                 required={!isLogin}
               />
@@ -259,7 +259,7 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none transition-all"
               placeholder="correo@ejemplo.com"
               required
             />
@@ -271,7 +271,7 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none transition-all"
               placeholder="••••••••"
               required
             />
@@ -280,7 +280,7 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
 
           <button
             type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full bg-theme-500 hover:bg-theme-600 text-white py-3 rounded-xl font-bold transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           >
             {isLogin ? "Iniciar Sesión" : "Registrarse"}
           </button>
@@ -292,7 +292,7 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
           </span>
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-orange-500 font-medium text-sm hover:underline"
+            className="text-theme-500 font-medium text-sm hover:underline"
           >
             {isLogin ? "Regístrate" : "Inicia sesión"}
           </button>
@@ -302,7 +302,7 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
           <div className="mt-4 text-left">
             <button
               onClick={() => setShowForgotPassword(true)}
-              className="text-gray-500 text-sm hover:text-orange-500 transition-colors"
+              className="text-gray-500 text-sm hover:text-theme-500 transition-colors"
             >
               ¿Olvidaste tu contraseña?
             </button>
@@ -328,12 +328,12 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
             <input
               type="email"
               placeholder="Tu correo electrónico"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all mb-4"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none transition-all mb-4"
             />
             
             <button
               onClick={() => setShowForgotPassword(false)}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold transition-all duration-200"
+              className="w-full bg-theme-500 hover:bg-theme-600 text-white py-3 rounded-xl font-bold transition-all duration-200"
             >
               Enviar Enlace
             </button>

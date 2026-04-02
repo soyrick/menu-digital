@@ -140,7 +140,7 @@ export default function Carrito({ numeroWhatsApp }: CarritoProps) {
             <div className="space-y-2">
               {/* Nombre del usuario (solo lectura) */}
               {nombre ? (
-                <div className="bg-orange-50 border border-orange-200 rounded-lg px-3 py-2 text-sm font-medium text-orange-700">
+                <div className="bg-theme-50 border border-theme-200 rounded-lg px-3 py-2 text-sm font-medium text-theme-700">
                   👤 {nombre}
                 </div>
               ) : (
@@ -149,7 +149,7 @@ export default function Carrito({ numeroWhatsApp }: CarritoProps) {
                   placeholder="Tu nombre"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
-                  className="w-full px-2 py-1.5 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all text-sm"
+                  className="w-full px-2 py-1.5 rounded-lg border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none transition-all text-sm"
                 />
               )}
               {/* Opciones de dirección */}
@@ -159,7 +159,7 @@ export default function Carrito({ numeroWhatsApp }: CarritoProps) {
                   onClick={() => setTipoDireccion('predeterminada')}
                   className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-medium transition-all ${
                     tipoDireccion === 'predeterminada'
-                      ? 'bg-orange-500 text-white'
+                      ? 'bg-theme-500 text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
                 >
@@ -170,7 +170,7 @@ export default function Carrito({ numeroWhatsApp }: CarritoProps) {
                   onClick={() => setTipoDireccion('nueva')}
                   className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-medium transition-all ${
                     tipoDireccion === 'nueva'
-                      ? 'bg-orange-500 text-white'
+                      ? 'bg-theme-500 text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
                 >
@@ -185,7 +185,7 @@ export default function Carrito({ numeroWhatsApp }: CarritoProps) {
                   placeholder="Tu dirección actual"
                   value={direccion}
                   onChange={(e) => setDireccion(e.target.value)}
-                  className="w-full px-2 py-1.5 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all text-sm"
+                  className="w-full px-2 py-1.5 rounded-lg border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none transition-all text-sm"
                 />
               )}
 
@@ -206,14 +206,14 @@ export default function Carrito({ numeroWhatsApp }: CarritoProps) {
                 value={nota}
                 onChange={(e) => setNota(e.target.value)}
                 rows={1}
-                className="w-full px-2 py-1.5 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all resize-none text-xs"
+                className="w-full px-2 py-1.5 rounded-lg border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none transition-all resize-none text-xs"
               />
             </div>
 
             {/* Total */}
             <div className="flex items-center justify-between">
               <span className="font-semibold text-gray-700 text-sm">Total</span>
-              <span className="text-xl font-bold text-orange-600">
+              <span className="text-xl font-bold text-theme-600">
                 {formatPrice(total)}
               </span>
             </div>

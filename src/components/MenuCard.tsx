@@ -35,7 +35,7 @@ export default function MenuCard({ producto, adminLogueado = false, usuarioLogue
 
   return (
     <>
-      <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
+      <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-theme-100">
         <div className="relative h-48 overflow-hidden">
           <Image
             src={producto.imagen}
@@ -44,7 +44,7 @@ export default function MenuCard({ producto, adminLogueado = false, usuarioLogue
             className="object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
             onClick={() => setModalOpen(true)}
           />
-          <div className="absolute top-3 right-3 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+          <div className="absolute top-3 right-3 bg-theme-500 text-white text-xs font-bold px-3 py-1 rounded-full">
             {producto.categoria}
           </div>
           {adminLogueado && (
@@ -64,7 +64,7 @@ export default function MenuCard({ producto, adminLogueado = false, usuarioLogue
         
         <div className="p-5">
           <h3 
-            className="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors cursor-pointer"
+            className="text-lg font-bold text-gray-900 mb-2 group-hover:text-theme-600 transition-colors cursor-pointer"
             onClick={() => setModalOpen(true)}
           >
             {producto.nombre}
@@ -74,12 +74,12 @@ export default function MenuCard({ producto, adminLogueado = false, usuarioLogue
           </p>
           
           <div className="flex items-center justify-between">
-            <span className="text-xl font-bold text-orange-600">
+            <span className="text-xl font-bold text-theme-600">
               {formatPrice(producto.precio)}
             </span>
             <button
               onClick={handleAgregar}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl font-medium text-sm transition-all duration-200 hover:scale-105 active:scale-95"
+              className="bg-theme-500 hover:bg-theme-600 text-white px-4 py-2 rounded-xl font-medium text-sm transition-all duration-200 hover:scale-105 active:scale-95"
             >
               Agregar
             </button>
@@ -115,7 +115,7 @@ export default function MenuCard({ producto, adminLogueado = false, usuarioLogue
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              <div className="absolute top-3 left-3 bg-orange-500 text-white text-sm font-bold px-4 py-1 rounded-full">
+              <div className="absolute top-3 left-3 bg-theme-500 text-white text-sm font-bold px-4 py-1 rounded-full">
                 {producto.categoria}
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function MenuCard({ producto, adminLogueado = false, usuarioLogue
               </p>
               
               <div className="flex items-center justify-between">
-                <span className="text-3xl font-bold text-orange-600">
+                <span className="text-3xl font-bold text-theme-600">
                   {formatPrice(producto.precio)}
                 </span>
                 <button
@@ -138,7 +138,7 @@ export default function MenuCard({ producto, adminLogueado = false, usuarioLogue
                     agregarProducto(producto);
                     setModalOpen(false);
                   }}
-                  className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all duration-200 hover:scale-105 active:scale-95"
+                  className="bg-theme-500 hover:bg-theme-600 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all duration-200 hover:scale-105 active:scale-95"
                 >
                   Agregar al Carrito
                 </button>
