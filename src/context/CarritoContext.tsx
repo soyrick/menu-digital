@@ -43,6 +43,35 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // Escuchar cambios en la autenticación y limpiar el carrito si no hay sesión
+  useEffect(() => {
+    const checkAuthAndClearCart = () => {
+      const usuario = localStorage.getItem('usuario');
+      const admin = localStorage.getItem('adminLogueado');
+      const isLoggedIn = !!usuario || admin === 'true';
+      
+      // Si no hay sesión, vaciar el carrito
+      if (!isLoggedIn && items.length > 0) {
+        setItems([]);
+        localStorage.removeItem("carrito");
+      }
+    };
+
+    // Verificar al inicio
+    checkAuthAndClearCart();
+
+    // Escuchar cambios
+    window.addEventListener('storage', checkAuthAndClearCart);
+    
+    // También verificar periódicamente (para detectar cierre de sesión sin refresh)
+    const interval = setInterval(checkAuthAndClearCart, 1000);
+    
+    return () => {
+      window.removeEventListener('storage', checkAuthAndClearCart);
+      clearInterval(interval);
+    };
+  }, []);
+
   // Guardar en localStorage cuando cambie
   useEffect(() => {
     localStorage.setItem("carrito", JSON.stringify(items));

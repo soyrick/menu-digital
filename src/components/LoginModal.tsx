@@ -25,6 +25,12 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
   const [error, setError] = useState("");
   const [usuarioLogueado, setUsuarioLogueado] = useState<any>(null);
   const [adminLogueado, setAdminLogueado] = useState(false);
+  
+  // Estados para editar perfil
+  const [editandoPerfil, setEditandoPerfil] = useState(false);
+  const [editName, setEditName] = useState("");
+  const [editEmail, setEditEmail] = useState("");
+  const [editDireccion, setEditDireccion] = useState("");
 
   // Cargar usuario y admin al abrir el modal y resetear estado
   useEffect(() => {
@@ -53,8 +59,42 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
     setPassword("");
     setName("");
     setDireccion("");
+    setEditandoPerfil(false);
     if (onLogout) onLogout();
     window.location.reload();
+  };
+
+  const handleEditarPerfil = () => {
+    if (usuarioLogueado) {
+      setEditName(usuarioLogueado.name || "");
+      setEditEmail(usuarioLogueado.email || "");
+      setEditDireccion(usuarioLogueado.direccion || "");
+      setEditandoPerfil(true);
+    }
+  };
+
+  const handleGuardarPerfil = () => {
+    // Actualizar en localStorage
+    const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    const usuarioActualizado = usuarios.map((u: any) => 
+      u.email === usuarioLogueado.email 
+        ? { ...u, name: editName, email: editEmail, direccion: editDireccion }
+        : u
+    );
+    localStorage.setItem('usuarios', JSON.stringify(usuarioActualizado));
+    
+    const nuevoUsuario = { ...usuarioLogueado, name: editName, email: editEmail, direccion: editDireccion };
+    localStorage.setItem('usuario', JSON.stringify(nuevoUsuario));
+    setUsuarioLogueado(nuevoUsuario);
+    setEditandoPerfil(false);
+    window.location.reload();
+  };
+
+  const handleCancelarEdicion = () => {
+    setEditandoPerfil(false);
+    setEditName("");
+    setEditEmail("");
+    setEditDireccion("");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -155,6 +195,79 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
 
   // Vista cuando el usuario cliente está logueado
   if (usuarioLogueado) {
+    // Si está editando el perfil
+    if (editandoPerfil) {
+      return (
+        <div 
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          onClick={handleOverlayClick}
+        >
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl relative">
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-bold text-gray-900">
+                ✏️ Editar Perfil
+              </h2>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Nombre</label>
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Correo</label>
+                <input
+                  type="email"
+                  value={editEmail}
+                  onChange={(e) => setEditEmail(e.target.value)}
+                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Dirección</label>
+                <input
+                  type="text"
+                  value={editDireccion}
+                  onChange={(e) => setEditDireccion(e.target.value)}
+                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none text-sm"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={handleCancelarEdicion}
+                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-xl font-bold text-sm transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleGuardarPerfil}
+                className="flex-1 bg-theme-500 hover:bg-theme-600 text-white py-2 rounded-xl font-bold text-sm transition-all"
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Vista normal del perfil
     return (
       <div 
         className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
@@ -183,6 +296,12 @@ export default function LoginModal({ isOpen, onClose, onAdminLogin, onLoginSucce
                 <p>📍 {usuarioLogueado.direccion}</p>
               )}
             </div>
+            <button
+              onClick={handleEditarPerfil}
+              className="w-full bg-theme-500 hover:bg-theme-600 text-white py-2 rounded-xl font-bold text-sm transition-all mb-2"
+            >
+              ✏️ Editar Perfil
+            </button>
             <button
               onClick={handleLogout}
               className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-bold transition-all duration-200"

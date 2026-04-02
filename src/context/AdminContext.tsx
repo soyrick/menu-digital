@@ -19,6 +19,10 @@ export interface Pedido {
   nota: string;
   telefono: string;
   estado: 'pendiente' | 'confirmado' | 'entregado';
+  // Campos para pedidos como regalo
+  esRegalo?: boolean;
+  nombreRemitente?: string;
+  mensajeRegalo?: string;
 }
 
 interface AdminContextType {

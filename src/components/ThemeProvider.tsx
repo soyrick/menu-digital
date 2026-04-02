@@ -4,7 +4,12 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 import { ReactNode } from "react";
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const { config } = useSiteConfig();
+  const { config, isLoaded } = useSiteConfig();
+
+  // No renderizar hasta que esté cargado (evita el flash)
+  if (!isLoaded) {
+    return null;
+  }
 
   // Convertir el color hex a valores RGB
   const hexToRgb = (hex: string) => {

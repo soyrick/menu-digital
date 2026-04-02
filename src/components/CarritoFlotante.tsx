@@ -4,14 +4,29 @@ import { useState, useEffect } from "react";
 import { useCarrito } from "@/context/CarritoContext";
 
 export default function CarritoFlotante() {
-  const { toggleCarrito, cantidadTotal } = useCarrito();
+  const { toggleCarrito, cantidadTotal, vaciarCarrito, items } = useCarrito();
   const [usuarioLogueado, setUsuarioLogueado] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const usuario = localStorage.getItem('usuario');
-    const admin = localStorage.getItem('adminLogueado');
-    setUsuarioLogueado(!!usuario || admin === 'true');
+    setMounted(true);
+    
+    const checkAuth = () => {
+      const usuario = localStorage.getItem('usuario');
+      const admin = localStorage.getItem('adminLogueado');
+      const isLoggedIn = !!usuario || admin === 'true';
+      setUsuarioLogueado(isLoggedIn);
+    };
+    
+    checkAuth();
+    
+    // Escuchar cambios en localStorage
+    window.addEventListener('storage', checkAuth);
+    return () => window.removeEventListener('storage', checkAuth);
   }, []);
+
+  // No renderizar hasta que esté montado
+  if (!mounted) return null;
 
   // No mostrar el botón si no hay items o si no hay sesión iniciada
   if (cantidadTotal === 0 || !usuarioLogueado) return null;

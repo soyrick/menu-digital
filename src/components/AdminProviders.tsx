@@ -6,15 +6,13 @@ import { ProductsProvider } from "@/context/ProductsContext";
 import { CarritoProvider } from "@/context/CarritoContext";
 import { SiteConfigProvider } from "@/context/SiteConfigContext";
 import ThemeProvider from "./ThemeProvider";
-import PageTitleUpdater from "./PageTitleUpdater";
 
-export default function ClientProviders({ children }: { children: ReactNode }) {
+export default function AdminProviders({ children }: { children: ReactNode }) {
   return (
     <AdminProvider>
       <ProductsProvider>
         <CarritoProvider>
           <SiteConfigProvider>
-            <PageTitleUpdater />
             <ThemeProvider>
               {children}
             </ThemeProvider>

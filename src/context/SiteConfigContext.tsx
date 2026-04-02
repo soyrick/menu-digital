@@ -11,12 +11,14 @@ export interface SiteConfig {
   themeColor: string;
   backgroundColor: string | null;
   useBackgroundColor: boolean;
+  pageTitle: string;
 }
 
 interface SiteConfigContextType {
   config: SiteConfig;
   actualizarConfig: (nuevaConfig: Partial<SiteConfig>) => void;
   resetConfig: () => void;
+  isLoaded: boolean;
 }
 
 const defaultConfig: SiteConfig = {
@@ -28,27 +30,36 @@ const defaultConfig: SiteConfig = {
   themeColor: "#ea580c",
   backgroundColor: null,
   useBackgroundColor: false,
+  pageTitle: "Menú Digital | Restaurante",
 };
 
 const SiteConfigContext = createContext<SiteConfigContextType | undefined>(undefined);
 
 export function SiteConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<SiteConfig>(defaultConfig);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("siteConfig");
     if (saved) {
       try {
-        setConfig(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        setConfig({
+          ...defaultConfig,
+          ...parsed,
+        });
       } catch {
         setConfig(defaultConfig);
       }
     }
+    setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("siteConfig", JSON.stringify(config));
-  }, [config]);
+    if (isLoaded) {
+      localStorage.setItem("siteConfig", JSON.stringify(config));
+    }
+  }, [config, isLoaded]);
 
   const actualizarConfig = (nuevaConfig: Partial<SiteConfig>) => {
     setConfig((prev) => ({ ...prev, ...nuevaConfig }));
@@ -60,7 +71,7 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <SiteConfigContext.Provider value={{ config, actualizarConfig, resetConfig }}>
+    <SiteConfigContext.Provider value={{ config, actualizarConfig, resetConfig, isLoaded }}>
       {children}
     </SiteConfigContext.Provider>
   );

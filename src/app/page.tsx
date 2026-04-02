@@ -45,17 +45,35 @@ export default function Home() {
   const [busquedaActiva, setBusquedaActiva] = useState(false);
   const [terminoBusqueda, setTerminoBusqueda] = useState("");
   const [editForm, setEditForm] = useState({
-    nombre: config.nombre,
-    eslogan: config.eslogan,
-    direccion: config.direccion,
-    headerColor: config.headerColor,
-    headerImagen: config.headerImagen,
-    themeColor: config.themeColor,
-    backgroundColor: config.backgroundColor,
-    useBackgroundColor: config.useBackgroundColor,
+    nombre: "",
+    eslogan: "",
+    direccion: "",
+    headerColor: "#ea580c",
+    headerImagen: null as string | null,
+    themeColor: "#ea580c",
+    backgroundColor: null as string | null,
+    useBackgroundColor: false,
+    pageTitle: "Menú Digital | Restaurante",
   });
   const { productos, categorias } = useProducts();
   const { isAdmin } = useAdmin();
+
+  // Sincronizar editForm con config cuando se abre el modal
+  useEffect(() => {
+    if (showEditHeader) {
+      setEditForm({
+        nombre: config.nombre,
+        eslogan: config.eslogan,
+        direccion: config.direccion,
+        headerColor: config.headerColor,
+        headerImagen: config.headerImagen,
+        themeColor: config.themeColor,
+        backgroundColor: config.backgroundColor,
+        useBackgroundColor: config.useBackgroundColor,
+        pageTitle: config.pageTitle,
+      });
+    }
+  }, [showEditHeader, config]);
 
   // Toast para mostrar mensajes
   const showToastMessage = (message: string) => {
@@ -153,16 +171,6 @@ export default function Home() {
         {adminLogueado && (
           <button
             onClick={() => {
-              setEditForm({
-                nombre: config.nombre,
-                eslogan: config.eslogan,
-                direccion: config.direccion,
-                headerColor: config.headerColor,
-                headerImagen: config.headerImagen,
-                themeColor: config.themeColor,
-                backgroundColor: config.backgroundColor,
-                useBackgroundColor: config.useBackgroundColor,
-              });
               setShowEditHeader(true);
             }}
             className="absolute top-4 left-4 flex items-center gap-2 bg-white/20 hover:bg-white/30 rounded-full px-3 py-2 transition-colors backdrop-blur-sm"
@@ -243,6 +251,18 @@ export default function Home() {
                   onChange={(e) => setEditForm({ ...editForm, direccion: e.target.value })}
                   className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none"
                   placeholder="Dirección del negocio"
+                />
+              </div>
+
+              {/* Título de la pestaña */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Título de la pestaña</label>
+                <input
+                  type="text"
+                  value={editForm.pageTitle}
+                  onChange={(e) => setEditForm({ ...editForm, pageTitle: e.target.value })}
+                  className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-theme-500 focus:ring-2 focus:ring-theme-200 outline-none"
+                  placeholder="Título que aparece en la pestaña del navegador"
                 />
               </div>
 
@@ -432,6 +452,7 @@ export default function Home() {
                     themeColor: editForm.themeColor,
                     backgroundColor: editForm.backgroundColor,
                     useBackgroundColor: editForm.useBackgroundColor,
+                    pageTitle: editForm.pageTitle,
                   });
                   setShowEditHeader(false);
                   showToastMessage("✅ Header actualizado");

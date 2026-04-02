@@ -26,10 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="es"
-      className={`${playfair.variable} ${inter.variable}`}
-    >
+    <html lang="es" className={`${playfair.variable} ${inter.variable}`}>
       <body className="font-sans">
         <Providers>
           {children}
